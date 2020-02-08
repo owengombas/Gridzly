@@ -1,0 +1,616 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5AF6E2A123EF438F008EDCE1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF6E2A023EF438F008EDCE1 /* AppDelegate.swift */; };
+		5AF6E2A323EF438F008EDCE1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF6E2A223EF438F008EDCE1 /* SceneDelegate.swift */; };
+		5AF6E2A623EF438F008EDCE1 /* Gridzly.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5AF6E2A423EF438F008EDCE1 /* Gridzly.xcdatamodeld */; };
+		5AF6E2A823EF438F008EDCE1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF6E2A723EF438F008EDCE1 /* ContentView.swift */; };
+		5AF6E2AA23EF4390008EDCE1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AF6E2A923EF4390008EDCE1 /* Assets.xcassets */; };
+		5AF6E2AD23EF4390008EDCE1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AF6E2AC23EF4390008EDCE1 /* Preview Assets.xcassets */; };
+		5AF6E2B023EF4390008EDCE1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AF6E2AE23EF4390008EDCE1 /* LaunchScreen.storyboard */; };
+		5AF6E2BB23EF4390008EDCE1 /* GridzlyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF6E2BA23EF4390008EDCE1 /* GridzlyTests.swift */; };
+		5AF6E2C623EF4390008EDCE1 /* GridzlyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF6E2C523EF4390008EDCE1 /* GridzlyUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5AF6E2B723EF4390008EDCE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5AF6E29523EF438F008EDCE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5AF6E29C23EF438F008EDCE1;
+			remoteInfo = Gridzly;
+		};
+		5AF6E2C223EF4390008EDCE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5AF6E29523EF438F008EDCE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5AF6E29C23EF438F008EDCE1;
+			remoteInfo = Gridzly;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		5AF6E29D23EF438F008EDCE1 /* Gridzly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gridzly.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AF6E2A023EF438F008EDCE1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5AF6E2A223EF438F008EDCE1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		5AF6E2A523EF438F008EDCE1 /* Gridzly.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Gridzly.xcdatamodel; sourceTree = "<group>"; };
+		5AF6E2A723EF438F008EDCE1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		5AF6E2A923EF4390008EDCE1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5AF6E2AC23EF4390008EDCE1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		5AF6E2AF23EF4390008EDCE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5AF6E2B123EF4390008EDCE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5AF6E2B623EF4390008EDCE1 /* GridzlyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GridzlyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AF6E2BA23EF4390008EDCE1 /* GridzlyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridzlyTests.swift; sourceTree = "<group>"; };
+		5AF6E2BC23EF4390008EDCE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5AF6E2C123EF4390008EDCE1 /* GridzlyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GridzlyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AF6E2C523EF4390008EDCE1 /* GridzlyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridzlyUITests.swift; sourceTree = "<group>"; };
+		5AF6E2C723EF4390008EDCE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5AF6E29A23EF438F008EDCE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5AF6E2B323EF4390008EDCE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5AF6E2BE23EF4390008EDCE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5AF6E29423EF438F008EDCE1 = {
+			isa = PBXGroup;
+			children = (
+				5AF6E29F23EF438F008EDCE1 /* Gridzly */,
+				5AF6E2B923EF4390008EDCE1 /* GridzlyTests */,
+				5AF6E2C423EF4390008EDCE1 /* GridzlyUITests */,
+				5AF6E29E23EF438F008EDCE1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5AF6E29E23EF438F008EDCE1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5AF6E29D23EF438F008EDCE1 /* Gridzly.app */,
+				5AF6E2B623EF4390008EDCE1 /* GridzlyTests.xctest */,
+				5AF6E2C123EF4390008EDCE1 /* GridzlyUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5AF6E29F23EF438F008EDCE1 /* Gridzly */ = {
+			isa = PBXGroup;
+			children = (
+				5AF6E2A023EF438F008EDCE1 /* AppDelegate.swift */,
+				5AF6E2A223EF438F008EDCE1 /* SceneDelegate.swift */,
+				5AF6E2A723EF438F008EDCE1 /* ContentView.swift */,
+				5AF6E2A923EF4390008EDCE1 /* Assets.xcassets */,
+				5AF6E2AE23EF4390008EDCE1 /* LaunchScreen.storyboard */,
+				5AF6E2B123EF4390008EDCE1 /* Info.plist */,
+				5AF6E2A423EF438F008EDCE1 /* Gridzly.xcdatamodeld */,
+				5AF6E2AB23EF4390008EDCE1 /* Preview Content */,
+			);
+			path = Gridzly;
+			sourceTree = "<group>";
+		};
+		5AF6E2AB23EF4390008EDCE1 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				5AF6E2AC23EF4390008EDCE1 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		5AF6E2B923EF4390008EDCE1 /* GridzlyTests */ = {
+			isa = PBXGroup;
+			children = (
+				5AF6E2BA23EF4390008EDCE1 /* GridzlyTests.swift */,
+				5AF6E2BC23EF4390008EDCE1 /* Info.plist */,
+			);
+			path = GridzlyTests;
+			sourceTree = "<group>";
+		};
+		5AF6E2C423EF4390008EDCE1 /* GridzlyUITests */ = {
+			isa = PBXGroup;
+			children = (
+				5AF6E2C523EF4390008EDCE1 /* GridzlyUITests.swift */,
+				5AF6E2C723EF4390008EDCE1 /* Info.plist */,
+			);
+			path = GridzlyUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5AF6E29C23EF438F008EDCE1 /* Gridzly */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5AF6E2CA23EF4390008EDCE1 /* Build configuration list for PBXNativeTarget "Gridzly" */;
+			buildPhases = (
+				5AF6E29923EF438F008EDCE1 /* Sources */,
+				5AF6E29A23EF438F008EDCE1 /* Frameworks */,
+				5AF6E29B23EF438F008EDCE1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Gridzly;
+			productName = Gridzly;
+			productReference = 5AF6E29D23EF438F008EDCE1 /* Gridzly.app */;
+			productType = "com.apple.product-type.application";
+		};
+		5AF6E2B523EF4390008EDCE1 /* GridzlyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5AF6E2CD23EF4390008EDCE1 /* Build configuration list for PBXNativeTarget "GridzlyTests" */;
+			buildPhases = (
+				5AF6E2B223EF4390008EDCE1 /* Sources */,
+				5AF6E2B323EF4390008EDCE1 /* Frameworks */,
+				5AF6E2B423EF4390008EDCE1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5AF6E2B823EF4390008EDCE1 /* PBXTargetDependency */,
+			);
+			name = GridzlyTests;
+			productName = GridzlyTests;
+			productReference = 5AF6E2B623EF4390008EDCE1 /* GridzlyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		5AF6E2C023EF4390008EDCE1 /* GridzlyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5AF6E2D023EF4390008EDCE1 /* Build configuration list for PBXNativeTarget "GridzlyUITests" */;
+			buildPhases = (
+				5AF6E2BD23EF4390008EDCE1 /* Sources */,
+				5AF6E2BE23EF4390008EDCE1 /* Frameworks */,
+				5AF6E2BF23EF4390008EDCE1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5AF6E2C323EF4390008EDCE1 /* PBXTargetDependency */,
+			);
+			name = GridzlyUITests;
+			productName = GridzlyUITests;
+			productReference = 5AF6E2C123EF4390008EDCE1 /* GridzlyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5AF6E29523EF438F008EDCE1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1100;
+				LastUpgradeCheck = 1100;
+				ORGANIZATIONNAME = ven;
+				TargetAttributes = {
+					5AF6E29C23EF438F008EDCE1 = {
+						CreatedOnToolsVersion = 11.0;
+					};
+					5AF6E2B523EF4390008EDCE1 = {
+						CreatedOnToolsVersion = 11.0;
+						TestTargetID = 5AF6E29C23EF438F008EDCE1;
+					};
+					5AF6E2C023EF4390008EDCE1 = {
+						CreatedOnToolsVersion = 11.0;
+						TestTargetID = 5AF6E29C23EF438F008EDCE1;
+					};
+				};
+			};
+			buildConfigurationList = 5AF6E29823EF438F008EDCE1 /* Build configuration list for PBXProject "Gridzly" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 5AF6E29423EF438F008EDCE1;
+			productRefGroup = 5AF6E29E23EF438F008EDCE1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5AF6E29C23EF438F008EDCE1 /* Gridzly */,
+				5AF6E2B523EF4390008EDCE1 /* GridzlyTests */,
+				5AF6E2C023EF4390008EDCE1 /* GridzlyUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5AF6E29B23EF438F008EDCE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5AF6E2B023EF4390008EDCE1 /* LaunchScreen.storyboard in Resources */,
+				5AF6E2AD23EF4390008EDCE1 /* Preview Assets.xcassets in Resources */,
+				5AF6E2AA23EF4390008EDCE1 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5AF6E2B423EF4390008EDCE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5AF6E2BF23EF4390008EDCE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5AF6E29923EF438F008EDCE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5AF6E2A123EF438F008EDCE1 /* AppDelegate.swift in Sources */,
+				5AF6E2A323EF438F008EDCE1 /* SceneDelegate.swift in Sources */,
+				5AF6E2A823EF438F008EDCE1 /* ContentView.swift in Sources */,
+				5AF6E2A623EF438F008EDCE1 /* Gridzly.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5AF6E2B223EF4390008EDCE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5AF6E2BB23EF4390008EDCE1 /* GridzlyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5AF6E2BD23EF4390008EDCE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5AF6E2C623EF4390008EDCE1 /* GridzlyUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5AF6E2B823EF4390008EDCE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5AF6E29C23EF438F008EDCE1 /* Gridzly */;
+			targetProxy = 5AF6E2B723EF4390008EDCE1 /* PBXContainerItemProxy */;
+		};
+		5AF6E2C323EF4390008EDCE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5AF6E29C23EF438F008EDCE1 /* Gridzly */;
+			targetProxy = 5AF6E2C223EF4390008EDCE1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5AF6E2AE23EF4390008EDCE1 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5AF6E2AF23EF4390008EDCE1 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5AF6E2C823EF4390008EDCE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		5AF6E2C923EF4390008EDCE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5AF6E2CB23EF4390008EDCE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"Gridzly/Preview Content\"";
+				DEVELOPMENT_TEAM = BCW7TF5B5M;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Gridzly/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ven.Gridzly;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5AF6E2CC23EF4390008EDCE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"Gridzly/Preview Content\"";
+				DEVELOPMENT_TEAM = BCW7TF5B5M;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Gridzly/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ven.Gridzly;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		5AF6E2CE23EF4390008EDCE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BCW7TF5B5M;
+				INFOPLIST_FILE = GridzlyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ven.GridzlyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Gridzly.app/Gridzly";
+			};
+			name = Debug;
+		};
+		5AF6E2CF23EF4390008EDCE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BCW7TF5B5M;
+				INFOPLIST_FILE = GridzlyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ven.GridzlyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Gridzly.app/Gridzly";
+			};
+			name = Release;
+		};
+		5AF6E2D123EF4390008EDCE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BCW7TF5B5M;
+				INFOPLIST_FILE = GridzlyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ven.GridzlyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Gridzly;
+			};
+			name = Debug;
+		};
+		5AF6E2D223EF4390008EDCE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BCW7TF5B5M;
+				INFOPLIST_FILE = GridzlyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ven.GridzlyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Gridzly;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5AF6E29823EF438F008EDCE1 /* Build configuration list for PBXProject "Gridzly" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5AF6E2C823EF4390008EDCE1 /* Debug */,
+				5AF6E2C923EF4390008EDCE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5AF6E2CA23EF4390008EDCE1 /* Build configuration list for PBXNativeTarget "Gridzly" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5AF6E2CB23EF4390008EDCE1 /* Debug */,
+				5AF6E2CC23EF4390008EDCE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5AF6E2CD23EF4390008EDCE1 /* Build configuration list for PBXNativeTarget "GridzlyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5AF6E2CE23EF4390008EDCE1 /* Debug */,
+				5AF6E2CF23EF4390008EDCE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5AF6E2D023EF4390008EDCE1 /* Build configuration list for PBXNativeTarget "GridzlyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5AF6E2D123EF4390008EDCE1 /* Debug */,
+				5AF6E2D223EF4390008EDCE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5AF6E2A423EF438F008EDCE1 /* Gridzly.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5AF6E2A523EF438F008EDCE1 /* Gridzly.xcdatamodel */,
+			);
+			currentVersion = 5AF6E2A523EF438F008EDCE1 /* Gridzly.xcdatamodel */;
+			path = Gridzly.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 5AF6E29523EF438F008EDCE1 /* Project object */;
+}
