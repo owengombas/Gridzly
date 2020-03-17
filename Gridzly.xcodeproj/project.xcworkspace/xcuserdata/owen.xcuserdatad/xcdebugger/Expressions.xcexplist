@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "ImageController.viewPartWidth.getter:ImageController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "GridView.path(in:):GridView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "ImageController.instance">
+            </PersistentString>
+            <PersistentString
+               value = "ImageController.instance.viewGeometry!.size.width">
+            </PersistentString>
+            <PersistentString
+               value = "ImageController.instance.imageWidth">
+            </PersistentString>
+            <PersistentString
+               value = "ImageController.instance.viewGeometry!.size.height">
+            </PersistentString>
+            <PersistentString
+               value = "ImageController.instance.viewPartHeight">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

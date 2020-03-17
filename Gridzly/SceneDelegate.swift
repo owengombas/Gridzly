@@ -33,6 +33,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
         }
+        
+        ImageController.instance.image = UIImage(named: "Image")!
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
