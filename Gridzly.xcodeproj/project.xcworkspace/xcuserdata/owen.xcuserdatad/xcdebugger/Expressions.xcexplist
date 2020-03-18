@@ -9,19 +9,27 @@
          contextName = "GridView.path(in:):GridView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "ImageController.instance">
+               value = "ImageController.instance.imageWidth">
             </PersistentString>
             <PersistentString
                value = "ImageController.instance.viewGeometry!.size.width">
             </PersistentString>
             <PersistentString
-               value = "ImageController.instance.imageWidth">
+               value = "ImageController.instance">
             </PersistentString>
             <PersistentString
                value = "ImageController.instance.viewGeometry!.size.height">
             </PersistentString>
             <PersistentString
                value = "ImageController.instance.viewPartHeight">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ContentView.updateGeometry(_:):ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "geometry.size">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

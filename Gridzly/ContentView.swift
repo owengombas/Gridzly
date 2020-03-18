@@ -11,47 +11,87 @@ import SwiftUI
 struct ContentView: View {
     @State var width: Int = 2
     @State var height: Int = 2
+    @State var maskY: Int = 0
+    
+    let min = 1
+    let max = 6
 
     var body: some View {
         VStack {
-            ZStack {
-                Image("Image")
-                    .antialiased(true)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                getPath()
-                    .stroke(Color.white, lineWidth: 1)
-                    .opacity(0.3)
-            }
-            .frame(
-                width: CGFloat(ImageController.instance.viewImageWidth),
-                height: CGFloat(ImageController.instance.viewImageHeight),
-                alignment: .center
-            )
-            .onTapGesture {
-                // ImagePicker
-            }
+            VStack(spacing: 0) {
+                ZStack {
+                    Image("Image")
+                        .antialiased(true)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(10)
+                        .frame(
+                            width: CGFloat(ImageController.instance.viewImageWidth),
+                            height: CGFloat(UIScreen.main.bounds.height / 2),
+                            alignment: .top
+                        )
+                        .opacity(0.3)
+                        .shadow(color: Color(.sRGB, white: 0, opacity: 0.2), radius: 10, x: 0, y: 5)
+                    Image("Image")
+                        .antialiased(true)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(
+                            width: CGFloat(ImageController.instance.viewImageWidth),
+                            height: CGFloat(UIScreen.main.bounds.height / 2),
+                            alignment: .top
+                        )
+                        .mask(
+                            Rectangle()
+                                .size(
+                                    width: CGFloat(ImageController.instance.viewImageWidth),
+                                    height: CGFloat(ImageController.instance.viewImageWidth)
+                                )
+                                .transform(CGAffineTransform(translationX: 0, y: CGFloat(self.maskY)))
+                        )
+                        .cornerRadius(10)
 
-            VStack {
-                Stepper(
-                    onIncrement: self.incrementHeight,
-                    onDecrement: self.decrementHeight
-                ) {
-                    Text("vertical ")
-                    .font(.custom("Metropolis-medium", size: 23))
-                    Text("\(height)")
-                    .font(.custom("Metropolis-bold", size: 23))
+                    getPath()
+                        .transform(CGAffineTransform(translationX: 0, y: CGFloat(self.maskY)))
+                        .stroke(Color.white, lineWidth: 2)
+                        .opacity(0.3)
+                        .frame(
+                            width: CGFloat(ImageController.instance.viewImageWidth),
+                            height: CGFloat(UIScreen.main.bounds.height / 2),
+                            alignment: .top
+                        )
                 }
-                Stepper(
-                    onIncrement: self.incrementWidth,
-                    onDecrement: self.decrementWidth
-                ) {
-                    Text("horizontal ")
-                    .font(.custom("Metropolis-medium", size: 23))
-                    Text("\(width)")
-                    .font(.custom("Metropolis-bold", size: 23))
+                .gesture(DragGesture().onChanged { (value: DragGesture.Value) in
+                    self.maskY = Int(value.location.y)
+                })
+                .onTapGesture {
+                    // ImagePicker
                 }
-            }.padding(20)
+
+                VStack(spacing: 0) {
+                    Text("vertical")
+                    .font(.custom("Metropolis-bold", size: 23))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    Stepper(
+                        onIncrement: self.incrementHeight,
+                        onDecrement: self.decrementHeight
+                    ) {
+                        Text("\(height)")
+                        .font(.custom("Metropolis-medium", size: 20))
+                    }.padding(.top, 3).padding(.bottom, 15)
+                    
+                    Text("horizontal")
+                    .font(.custom("Metropolis-bold", size: 23))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    Stepper(
+                        onIncrement: self.incrementWidth,
+                        onDecrement: self.decrementWidth
+                    ) {
+                        Text("\(width)")
+                        .font(.custom("Metropolis-medium", size: 20))
+                    }.padding(.top, 3)
+                }.padding(.horizontal, 10).padding(.top, 15)
+            }
             
             Spacer()
             
@@ -69,24 +109,36 @@ struct ContentView: View {
         .padding(20)
     }
     
+    func updateGeometry(_ geometry: GeometryProxy) -> EmptyView {
+        ImageController.instance.viewGeometry = geometry
+        return EmptyView()
+    }
+    
     func save() {
         ImageController.instance.save()
     }
     
+    
+    func setSize(value: inout Int, increment: Int) {
+        if (value <= self.max && value >= self.min) {
+            value += increment
+        }
+    }
+
     func incrementWidth() {
-        self.width += 1
+        setSize(value: &self.width, increment: 1)
     }
     
     func decrementWidth() {
-        self.width -= 1
+        setSize(value: &self.width, increment: -1)
     }
     
     func incrementHeight() {
-        self.height += 1
+        setSize(value: &self.height, increment: 1)
     }
     
     func decrementHeight() {
-        self.height -= 1
+        setSize(value: &self.height, increment: -1)
     }
     
     func updateGrid() {
@@ -95,7 +147,7 @@ struct ContentView: View {
     }
     
     func getPath() -> Path {
-        updateGrid()
+        self.updateGrid()
         var path = Path()
         
         for x in 1..<self.width {

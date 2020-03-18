@@ -36,7 +36,7 @@ class ImageController: NSObject {
         }
     }
     var ratio: Float {
-        return Float(UIScreen.main.bounds.width) / Float(self.imageWidth)
+        return Float(UIScreen.main.bounds.height / 2) / Float(self.imageHeight)
     }
     
     private var _viewGeometry: GeometryProxy?
@@ -62,7 +62,7 @@ class ImageController: NSObject {
         return Int(self.image!.size.width)
     }
     var viewImageWidth: Int {
-        Int(Float(self.imageWidth) * self.ratio)
+        return Int(Float(self.imageWidth) * self.ratio)
     }
     var absolutePartWidth: Int {
         return self.imageWidth / self.width
@@ -84,7 +84,8 @@ class ImageController: NSObject {
         return Int(self.image!.size.height)
     }
     var viewImageHeight: Int {
-        Int(Float(self.imageHeight) * self.ratio)
+        return viewImageWidth
+        // return Int(Float(self.imageHeight) * self.ratio)
     }
     var absolutePartHeightHeight: Int {
         return self.imageHeight / self.height
