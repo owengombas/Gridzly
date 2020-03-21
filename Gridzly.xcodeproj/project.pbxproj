@@ -30,6 +30,7 @@
 		5A762AAC2421532900023407 /* Metropolis-Light.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 5A762A962421532900023407 /* Metropolis-Light.woff2 */; };
 		5A762AAD2421532900023407 /* Metropolis-Regular.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 5A762A972421532900023407 /* Metropolis-Regular.woff2 */; };
 		5A7AE02B2420D2A100E5EDA6 /* ImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AE02A2420D2A100E5EDA6 /* ImageController.swift */; };
+		5AE4AA97242530FA0093B883 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4AA96242530FA0093B883 /* Vector.swift */; };
 		5AF6E2A123EF438F008EDCE1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF6E2A023EF438F008EDCE1 /* AppDelegate.swift */; };
 		5AF6E2A323EF438F008EDCE1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF6E2A223EF438F008EDCE1 /* SceneDelegate.swift */; };
 		5AF6E2A623EF438F008EDCE1 /* Gridzly.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5AF6E2A423EF438F008EDCE1 /* Gridzly.xcdatamodeld */; };
@@ -83,6 +84,7 @@
 		5A762A962421532900023407 /* Metropolis-Light.woff2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Metropolis-Light.woff2"; sourceTree = "<group>"; };
 		5A762A972421532900023407 /* Metropolis-Regular.woff2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Metropolis-Regular.woff2"; sourceTree = "<group>"; };
 		5A7AE02A2420D2A100E5EDA6 /* ImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageController.swift; sourceTree = "<group>"; };
+		5AE4AA96242530FA0093B883 /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
 		5AF6E29D23EF438F008EDCE1 /* Gridzly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gridzly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AF6E2A023EF438F008EDCE1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5AF6E2A223EF438F008EDCE1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				5AF6E2A423EF438F008EDCE1 /* Gridzly.xcdatamodeld */,
 				5AF6E2AB23EF4390008EDCE1 /* Preview Content */,
 				5A7AE02A2420D2A100E5EDA6 /* ImageController.swift */,
+				5AE4AA96242530FA0093B883 /* Vector.swift */,
 			);
 			path = Gridzly;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				5AF6E2A123EF438F008EDCE1 /* AppDelegate.swift in Sources */,
 				5AF6E2A323EF438F008EDCE1 /* SceneDelegate.swift in Sources */,
 				5AF6E2A823EF438F008EDCE1 /* ContentView.swift in Sources */,
+				5AE4AA97242530FA0093B883 /* Vector.swift in Sources */,
 				5AF6E2A623EF438F008EDCE1 /* Gridzly.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

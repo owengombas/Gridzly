@@ -3,6 +3,14 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "ContentView.updateGeometry(_:):ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "geometry.size">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ImageController.viewPartWidth.getter:ImageController.swift">
       </ContextState>
       <ContextState
@@ -26,10 +34,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ContentView.updateGeometry(_:):ContentView.swift">
+         contextName = "ImageController.height.setter:ImageController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "geometry.size">
+               value = "self.maxHeight">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

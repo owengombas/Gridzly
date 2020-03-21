@@ -10,21 +10,12 @@ import Foundation
 import UIKit
 import SwiftUI
 
-class ImageController: NSObject {
-    private static var _instance: ImageController?
-    static var instance: ImageController {
-        get {
-            if self._instance == nil {
-                self._instance = ImageController()
-            }
-            return self._instance!
-        }
-        set(value) {
-            self._instance = value
-        }
+class ImageController: ObservableObject {
+    init() {
+        self._viewImageWidth = self._maxWidth
     }
-
-    private var images: [CGImage] = []
+    
+    private var _images: [CGImage] = []
 
     private var _image: UIImage?
     var image: UIImage? {
@@ -36,20 +27,71 @@ class ImageController: NSObject {
         }
     }
     var ratio: Float {
-        return Float(UIScreen.main.bounds.height / 2) / Float(self.imageHeight)
+        return self._viewImageWidth / self.imageWidth
+    }
+    var isImagePortrait: Bool {
+        return self.imageWidth <= self.imageHeight
     }
     
-    private var _viewGeometry: GeometryProxy?
-    var viewGeometry: GeometryProxy? {
+    @Published private var _maskPos = Vector(0, 0)
+    var maskPos: Vector {
         get {
-            return self._viewGeometry
+            return self._maskPos
         }
-        set(value) {
-            self._viewGeometry = value
+        set(newPos) {
+            let vSize = Vector(
+                Float(self.imageWidth),
+                Float(self.imageHeight)
+            )
+            
+            var maxNormalCoordinates =
+                vSize.substract(
+                    Vector(
+                        Float(self.gridWidth),
+                        Float(self.gridHeight)
+                    )
+                )
+                
+            let vDelta =
+                maxNormalCoordinates.substract(
+                    maxNormalCoordinates.scale(self.scale)
+                )
+                .divide(2)
+            
+            var normalCoordinates = self.convertCoordinatesToNormal(newPos)
+            let maxMaskCoordinates = self.convertCoordinatesToMask(maxNormalCoordinates)
+            let minMaskCoordinates = self.convertCoordinatesToMask(Vector(0, 0))
+            
+            print("DELTA: ", vDelta.x, vDelta.y)
+            print("POS: ", normalCoordinates.x, normalCoordinates.y)
+            print("MAX: ", maxNormalCoordinates.x, maxNormalCoordinates.y)
+            print()
+//            if normalCoordinates.x > maxNormalCoordinates.x {
+//                newPos.x = maxMaskCoordinates.x
+//            }
+//
+//            if normalCoordinates.y > maxNormalCoordinates.y {
+//                print(_maskPos)
+//                newPos.y = maxMaskCoordinates.y
+//            }
+//
+//            if normalCoordinates.x < 0 {
+//                newPos.x = minMaskCoordinates.x
+//            }
+//
+//            if normalCoordinates.y < 0 {
+//                newPos.y = minMaskCoordinates.y
+//            }
+            
+            self._maskPos = newPos
         }
     }
-
-    private var _width: Int = 2
+    
+    @Published var scale: Float = 0.4
+    
+    @Published private var _width: Int = 3
+    private var _viewImageWidth: Float
+    private var _maxWidth = Float(UIScreen.main.bounds.width) - 20
     var width: Int {
         get {
             return self._width
@@ -58,40 +100,81 @@ class ImageController: NSObject {
             setGrid(width: value, height: self.height)
         }
     }
-    var imageWidth: Int {
-        return Int(self.image!.size.width)
+    var maxWidth: Float {
+        return self._maxWidth
     }
-    var viewImageWidth: Int {
-        return Int(Float(self.imageWidth) * self.ratio)
+    var viewImageWidth: Float {
+        get {
+            return self._viewImageWidth
+        }
+        set(value) {
+            if value <= maxWidth {
+                self._viewImageWidth = value
+            } else {
+                self._viewImageWidth = maxWidth
+            }
+        }
     }
-    var absolutePartWidth: Int {
-        return self.imageWidth / self.width
+    var viewPartWidth: Float {
+        return self.viewImageWidth / Float(self.width)
     }
-    var viewPartWidth: Int {
-        return self.viewImageWidth / self.width
+    var imageWidth: Float {
+        return Float(self.image!.size.width)
+    }
+    var gridWidth: Float {
+        return self.viewPartWidth * Float(self.width)
     }
     
-    private var _height: Int = 2
+    @Published private var _height: Int = 10
+    @Published  private var _gridHeight: Float = 0
+    private var _maxHeight: Float = Float(UIScreen.main.bounds.height - 300)
     var height: Int {
         get {
             return self._height
         }
         set(value) {
             setGrid(width: self.width, height: value)
+            
+            let gridHeight = viewPartWidth * Float(self.height)
+            self.viewImageWidth *= self._maxHeight / gridHeight
+            
+            if gridHeight > self._maxHeight {
+                self._gridHeight = self.maxHeight
+            } else {
+                self._gridHeight = gridHeight
+            }
         }
     }
-    var imageHeight: Int {
-        return Int(self.image!.size.height)
+    var maxHeight: Float {
+        return self._maxHeight
     }
-    var viewImageHeight: Int {
-        return viewImageWidth
-        // return Int(Float(self.imageHeight) * self.ratio)
+    var imageHeight: Float {
+        return Float(self.image!.size.height)
     }
-    var absolutePartHeightHeight: Int {
-        return self.imageHeight / self.height
+    var viewImageHeight: Float {
+        return Float(imageHeight) * ratio
     }
-    var viewPartHeight: Int {
-        return self.viewImageHeight / self.height
+    var viewPartHeight: Float {
+        return self.gridHeight / Float(self.height)
+    }
+    var gridHeight: Float {
+        return self._gridHeight
+    }
+    
+    func convertCoordinatesToNormal(_ coordinates: Vector) -> Vector {
+        let vB = Vector(
+            Float(self.imageWidth),
+            Float(self.imageHeight)
+        ).divide(2)
+        return coordinates.reverse().add(vB)
+    }
+    
+    func convertCoordinatesToMask(_ coordinates: Vector) -> Vector {
+        let vB = Vector(
+            Float(self.imageWidth),
+            Float(self.imageHeight)
+        ).divide(2)
+        return coordinates.substract(vB).divide(self.scale).reverse()
     }
     
     private func setImage(_ image: UIImage?) {
@@ -99,7 +182,7 @@ class ImageController: NSObject {
     }
     
     private func setGrid(width: Int, height: Int) {
-        self.images = []
+        self._images = []
         if image != nil {
             self._width = width
             self._height = height
@@ -119,14 +202,14 @@ class ImageController: NSObject {
                         height: partHeight
                     )
                     let croppedImage = self.image!.cgImage?.cropping(to: rect)!
-                    self.images.append(croppedImage!)
+                    self._images.append(croppedImage!)
                 }
             }
         }
     }
     
     func save() {
-        for image in self.images {
+        for image in self._images {
             let savableImage = UIImage(cgImage: image, scale: 1, orientation: .up)
             UIImageWriteToSavedPhotosAlbum(savableImage, self, #selector(saveError), nil)
         }

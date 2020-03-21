@@ -9,88 +9,66 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var width: Int = 2
-    @State var height: Int = 2
-    @State var maskY: Int = 0
+    @State var lastScale: Float = 1
+    @State var vPrev: Vector?
+    @State var firstValue: DragGesture.Value?
+    @State var pathTrim: CGFloat = 1
+    @ObservedObject var imgCtrl: ImageController = ImageController()
     
-    let min = 1
-    let max = 6
+    var scaleMovingFactor: Float {
+        return 1 - self.imgCtrl.scale
+    }
 
     var body: some View {
         VStack {
             VStack(spacing: 0) {
                 ZStack {
-                    Image("Image")
+                    self.viewImage()
                         .antialiased(true)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(10)
+                        .position(self.imgCtrl.maskPos.toPoint())
+                        .scaleEffect(CGFloat(self.imgCtrl.scale))
                         .frame(
-                            width: CGFloat(ImageController.instance.viewImageWidth),
-                            height: CGFloat(UIScreen.main.bounds.height / 2),
-                            alignment: .top
+                            width: CGFloat(self.imgCtrl.gridWidth),
+                            height: CGFloat(self.imgCtrl.gridHeight),
+                            alignment: .center
                         )
-                        .opacity(0.3)
-                        .shadow(color: Color(.sRGB, white: 0, opacity: 0.2), radius: 10, x: 0, y: 5)
-                    Image("Image")
-                        .antialiased(true)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(
-                            width: CGFloat(ImageController.instance.viewImageWidth),
-                            height: CGFloat(UIScreen.main.bounds.height / 2),
-                            alignment: .top
-                        )
+                        // .animation(.spring()) TODO MANUAL
                         .mask(
                             Rectangle()
-                                .size(
-                                    width: CGFloat(ImageController.instance.viewImageWidth),
-                                    height: CGFloat(ImageController.instance.viewImageWidth)
+                                .frame(
+                                    width: CGFloat(self.imgCtrl.gridWidth),
+                                    height: CGFloat(self.imgCtrl.gridHeight),
+                                    alignment: .center
                                 )
-                                .transform(CGAffineTransform(translationX: 0, y: CGFloat(self.maskY)))
+                                .animation(.spring())
                         )
-                        .cornerRadius(10)
 
                     getPath()
-                        .transform(CGAffineTransform(translationX: 0, y: CGFloat(self.maskY)))
+                        .trim(from: self.pathTrim, to: 1)
                         .stroke(Color.white, lineWidth: 2)
                         .opacity(0.3)
                         .frame(
-                            width: CGFloat(ImageController.instance.viewImageWidth),
-                            height: CGFloat(UIScreen.main.bounds.height / 2),
-                            alignment: .top
+                            width: CGFloat(self.imgCtrl.viewImageWidth),
+                            height: CGFloat(self.imgCtrl.gridHeight)
                         )
+                        .onAppear(perform: self.animatePath)
                 }
-                .gesture(DragGesture().onChanged { (value: DragGesture.Value) in
-                    self.maskY = Int(value.location.y)
-                })
-                .onTapGesture {
-                    // ImagePicker
-                }
+                .shadow(color: Color(.sRGB, white: 0, opacity: 0.5), radius: 10, x: 0, y: 5)
+                .gesture(DragGesture().onChanged(self.drag).onEnded(self.dragEnded))
+                .gesture(MagnificationGesture().onChanged(self.pinch).onEnded(self.pinchEnded))
 
                 VStack(spacing: 0) {
-                    Text("vertical")
+                    Text("height")
                     .font(.custom("Metropolis-bold", size: 23))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     Stepper(
                         onIncrement: self.incrementHeight,
                         onDecrement: self.decrementHeight
                     ) {
-                        Text("\(height)")
-                        .font(.custom("Metropolis-medium", size: 20))
-                    }.padding(.top, 3).padding(.bottom, 15)
-                    
-                    Text("horizontal")
-                    .font(.custom("Metropolis-bold", size: 23))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    Stepper(
-                        onIncrement: self.incrementWidth,
-                        onDecrement: self.decrementWidth
-                    ) {
-                        Text("\(width)")
+                        Text(String(self.imgCtrl.height))
                         .font(.custom("Metropolis-medium", size: 20))
                     }.padding(.top, 3)
-                }.padding(.horizontal, 10).padding(.top, 15)
+                }.padding(.horizontal, 10).padding(.top, 15).animation(.spring())
             }
             
             Spacer()
@@ -109,79 +87,132 @@ struct ContentView: View {
         .padding(20)
     }
     
-    func updateGeometry(_ geometry: GeometryProxy) -> EmptyView {
-        ImageController.instance.viewGeometry = geometry
-        return EmptyView()
+    init() {
+        self.imgCtrl.image = UIImage(named: "limage")
+        self.imgCtrl.height = 3
+    }
+    
+    func viewImage() -> Image {
+        return Image("limage")
+    }
+    
+    func pinch(_ value: MagnificationGesture.Value) {
+        let delta = Float(value) / self.lastScale
+        self.lastScale = Float(value)
+        let newValue = self.imgCtrl.scale * delta
+        if newValue <= 1 && newValue >= self.imgCtrl.ratio {
+            self.imgCtrl.scale = newValue
+        }
+    }
+    
+    func pinchEnded(_ value: MagnificationGesture.Value) {
+        self.lastScale = 1
+    }
+    
+    func drag(_ value: DragGesture.Value) -> Void {
+        let vCurr = Vector(value.location)
+        
+        if vPrev != nil {
+            let vPrevCurr = vCurr.substract(vPrev!)
+            let vFinal = (
+                vPrevCurr.scale(self.scaleMovingFactor * 5 + 1)
+            )
+
+            let newPos = self.imgCtrl.maskPos.add(vFinal)
+            self.imgCtrl.maskPos = newPos
+        } else {
+            self.firstValue = value
+        }
+        
+        vPrev = vCurr
+    }
+    
+    func dragEnded(_ value: DragGesture.Value) -> Void {
+        let vTranslation = Vector(
+            Float(value.predictedEndTranslation.width),
+            Float(value.predictedEndTranslation.height)
+        )
+        
+        withAnimation(.easeOut(duration: 0.5)) {
+            if vTranslation.norm > 250 {
+                self.imgCtrl.maskPos = self.imgCtrl.maskPos.add(
+                    vTranslation.scale(self.scaleMovingFactor * 3 + 1)
+                )
+            }
+        }
+        
+        self.vPrev = nil
+    }
+    
+    func getPosValue(_ delta: CGFloat) -> CGFloat {
+        let increment = delta == 0 ? 0 : delta > 0 ? 1 : -1
+        let velocity = delta == 0 ? 0 : (abs(1 - abs((1 / delta))) * 7 + 1)
+        return (CGFloat(increment) * CGFloat(velocity)).rounded(.up)
     }
     
     func save() {
-        ImageController.instance.save()
+        self.imgCtrl.save()
     }
-    
     
     func setSize(value: inout Int, increment: Int) {
-        if (value <= self.max && value >= self.min) {
-            value += increment
-        }
-    }
-
-    func incrementWidth() {
-        setSize(value: &self.width, increment: 1)
+        value = value + increment
+        animatePath()
     }
     
-    func decrementWidth() {
-        setSize(value: &self.width, increment: -1)
+    func animatePath() {
+        self.pathTrim = 1
+        withAnimation(.easeOut(duration: 0.5)) {
+            self.pathTrim = 0
+        }
+        
     }
     
     func incrementHeight() {
-        setSize(value: &self.height, increment: 1)
+        setSize(value: &self.imgCtrl.height, increment: 1)
     }
     
     func decrementHeight() {
-        setSize(value: &self.height, increment: -1)
-    }
-    
-    func updateGrid() {
-        ImageController.instance.width = self.width
-        ImageController.instance.height = self.height
+        setSize(value: &self.imgCtrl.height, increment: -1)
     }
     
     func getPath() -> Path {
-        self.updateGrid()
         var path = Path()
         
-        for x in 1..<self.width {
+        for y in 1..<self.imgCtrl.height {
             path.move(
                 to: CGPoint(
-                    x: x * ImageController.instance.viewPartWidth,
+                    x: 0,
+                    y: y * Int(self.imgCtrl.viewPartHeight)
+                )
+            )
+            path.addLine(
+                to: CGPoint(
+                    x: Int(self.imgCtrl.viewImageWidth),
+                    y: y * Int(self.imgCtrl.viewPartHeight)
+                )
+            )
+        }
+        
+        for x in 1..<self.imgCtrl.width {
+            path.move(
+                to: CGPoint(
+                    x: x * Int(self.imgCtrl.viewPartWidth),
                     y: 0
                 )
             )
             path.addLine(
                 to: CGPoint(
-                    x: x * ImageController.instance.viewPartWidth,
-                    y: Int(ImageController.instance.viewImageHeight)
+                    x: x * Int(self.imgCtrl.viewPartWidth),
+                    y: Int(self.imgCtrl.gridHeight)
                 )
             )
         }
         
-        for y in 1..<self.height {
-            path.move(
-                to: CGPoint(
-                    x: 0,
-                    y: y * ImageController.instance.viewPartHeight
-                )
-            )
-            path.addLine(
-                to: CGPoint(
-                    x: Int(ImageController.instance.viewImageWidth),
-                    y: y * ImageController.instance.viewPartHeight
-                )
-            )
-        }
-
+        path = path.scale(-1).path(in: path.boundingRect)
+        
         return path
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
