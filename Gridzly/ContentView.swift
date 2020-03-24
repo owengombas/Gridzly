@@ -10,17 +10,23 @@ import SwiftUI
 
 struct ContentView: View {
     let maxScale: Float = 3
+    let generator = UINotificationFeedbackGenerator()
+    let rigidGenerator = UIImpactFeedbackGenerator(style: .rigid)
     @State var lastScale: Float = 1
     @State var prevValue: DragGesture.Value?
     @State var vPrev: Vector?
     @State var firstValue: DragGesture.Value?
     @State var pathTrim: CGFloat = 1
     @State var customSize = false
-    @State var showImagePicker = true
+    @State var showImagePicker = false
     @State var image: Image?
+    @State var scaleAnimation: Animation? = nil
+    @State var saved = false
+    @State var showImportScreen = true
+    @State var showImportScreenContent = true
+    @State var isPro = false
     @ObservedObject var imgCtrl: ImageController = ImageController()
     @Environment(\.colorScheme) var colorScheme: ColorScheme
-    @State var scaleAnimation: Animation? = nil
     let primaryColor = Color(red: 0.21, green: 0.59, blue: 0.94)
     let gridImages: [[Int]] = [
         [3, 1],
@@ -38,159 +44,240 @@ struct ContentView: View {
     }
 
     var body: some View {
-        VStack {
-            if self.image != nil {
-                Button(action: self.importPicture) {
-                    Text("Change the picture")
-                        .fontWeight(.medium)
-                        .foregroundColor(primaryColor)
-                        .padding(.horizontal, 30)
-                        .padding(.vertical, 12)
-                        .font(.system(size: 17))
-                        .foregroundColor(.white)
-                        .cornerRadius(5, antialiased: true)
-                }
-                
-                VStack(spacing: 0) {
-                    ZStack {
-                        self.image!
-                            .offset(x: CGFloat(self.imgCtrl.pos.x), y: CGFloat(self.imgCtrl.pos.y))
-                            .animation(.timingCurve(0, 0, 0.3, 1, duration: 1))
-                            .scaleEffect(CGFloat(self.imgCtrl.scale))
-                            .animation(self.scaleAnimation)
-                            .animation(.default)
-                            .frame(
-                                width: CGFloat(self.imgCtrl.gridWidth),
-                                height: CGFloat(self.imgCtrl.gridHeight),
-                                alignment: .center
-                            )
-
-                            getPath()
-                                .trim(from: self.pathTrim, to: 1)
-                                .stroke(Color.white, lineWidth: 2)
-                                .opacity(0.3)
+        ZStack {
+            VStack {
+                if self.image != nil {
+                    Button(action: self.importPicture) {
+                        Text("Change the picture")
+                            .font(.custom("Metropolis-medium", size: 18))
+                            .foregroundColor(primaryColor)
+                            .padding(.horizontal, 30)
+                            .padding(.vertical, 12)
+                    }
+                    .padding(.top, 10)
+                    
+                    VStack(spacing: 0) {
+                        ZStack {
+                            self.image!
+                                .offset(x: CGFloat(self.imgCtrl.pos.x), y: CGFloat(self.imgCtrl.pos.y))
+                                .animation(.timingCurve(0, 0, 0.3, 1, duration: 1))
+                                .scaleEffect(CGFloat(self.imgCtrl.scale))
+                                .animation(self.scaleAnimation)
+                                .animation(.default)
                                 .frame(
                                     width: CGFloat(self.imgCtrl.gridWidth),
                                     height: CGFloat(self.imgCtrl.gridHeight),
                                     alignment: .center
                                 )
-                                .onAppear(perform: self.animatePath)
-                                .shadow(color: Color(.sRGB, white: 0, opacity: 0.9), radius: 5, x: 0, y: 5)
-                    }
-                    .cornerRadius(5)
-                    .shadow(color: Color(.sRGB, white: 0, opacity: 0.5), radius: 10, x: 0, y: 5)
-                    .gesture(DragGesture().onChanged(self.drag).onEnded(self.dragEnded))
-                    .gesture(MagnificationGesture().onChanged(self.pinch).onEnded(self.pinchEnded))
-                }
-                .frame(
-                    width: CGFloat(self.imgCtrl.maxWidth),
-                    height: CGFloat(self.imgCtrl.maxHeight),
-                    alignment: .center
-                )
-                .animation(.spring())
-                .zIndex(-999999)
-                
-                Spacer()
 
-                VStack {
-                    ZStack {
-                        if self.customSize {
-                            VStack {
-                                Group {
+                                getPath()
+                                    .trim(from: self.pathTrim, to: 1)
+                                    .stroke(Color.white, lineWidth: 2)
+                                    .opacity(0.3)
+                                    .frame(
+                                        width: CGFloat(self.imgCtrl.gridWidth),
+                                        height: CGFloat(self.imgCtrl.gridHeight),
+                                        alignment: .center
+                                    )
+                                    .onAppear(perform: self.animatePath)
+                                    .shadow(color: Color(.sRGB, white: 0, opacity: 0.9), radius: 5, x: 0, y: 5)
+                        }
+                        .cornerRadius(5, antialiased: true)
+                        .shadow(color: Color(.sRGB, white: 0, opacity: 0.5), radius: 10, x: 0, y: 5)
+                        .gesture(DragGesture().onChanged(self.drag).onEnded(self.dragEnded))
+                        .gesture(MagnificationGesture().onChanged(self.pinch).onEnded(self.pinchEnded))
+                    }
+                    .frame(
+                        width: CGFloat(self.imgCtrl.maxWidth),
+                        height: CGFloat(self.imgCtrl.maxHeight),
+                        alignment: .center
+                    )
+                    .animation(.spring())
+                    .zIndex(-999999)
+                    
+                    Spacer()
+
+                    VStack {
+                        ZStack {
+                            if self.customSize {
+                                VStack {
                                     Group {
-                                        Stepper(
-                                            onIncrement: self.incrementHeight,
-                                            onDecrement: self.decrementHeight
-                                        ) {
-                                            Text("height")
-                                                .font(.system(size: 23))
-                                                .fontWeight(.bold)
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                            Text(String(self.imgCtrl.height))
-                                                .font(.system(size: 19))
-                                                .padding(.horizontal, 8)
+                                        Group {
+                                            Stepper(
+                                                onIncrement: self.incrementHeight,
+                                                onDecrement: self.decrementHeight
+                                            ) {
+                                                Text("height")
+                                                    .font(.custom("Metropolis-medium", size: 23))
+                                                    .fontWeight(.bold)
+                                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                                Text(String(self.imgCtrl.height))
+                                                    .font(.custom("Metropolis-medium", size: 23))
+                                                    .padding(.horizontal, 8)
+                                            }
+                                        }
+                                        
+                                        Group {
+                                            Stepper(
+                                                onIncrement: self.incrementWidth,
+                                                onDecrement: self.decrementWidth
+                                            ) {
+                                                Text("width")
+                                                    .font(.custom("Metropolis-medium", size: 23))
+                                                    .fontWeight(.bold)
+                                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                                Text(String(self.imgCtrl.width))
+                                                    .font(.custom("Metropolis-medium", size: 23))
+                                                    .padding(.horizontal, 8)
+                                            }
+                                        }
+                                    }
+                                    .padding(.horizontal, 20)
+                                    
+                                    Button(action: {
+                                        withAnimation {
+                                            self.customSize.toggle()
+                                        }
+                                    }) {
+                                        Text("Use a predifined size")
+                                            .foregroundColor(primaryColor)
+                                            .font(.custom("Metropolis-medium", size: 15))
+                                    }
+                                    .padding(.top, 10)
+                                }
+                                .frame(minWidth: 0, maxWidth: 500, minHeight: 0, maxHeight: 100, alignment: .center)
+                            } else {
+                                VStack {
+                                    HStack {
+                                        ForEach(self.gridImages, id: \.self[1]) { image in
+                                            Button(action: {
+                                                self.setSize(image[0], image[1])
+                                            }) {
+                                                Image(String(image[1]) + (self.colorScheme == .light ? "" : "d"))
+                                                    .renderingMode(.original)
+                                                    .resizable()
+                                                    .aspectRatio(CGSize(width: image[0], height: image[1]), contentMode: .fit)
+                                                    .padding(.horizontal, 18)
+                                            }
+                                            .opacity(self.isImageRatio(image[0], image[1]) ? 0.5 : 0.3)
+                                            .frame(minWidth: 0, maxWidth: 100, minHeight: 0, maxHeight: .infinity, alignment: .center)
                                         }
                                     }
                                     
-                                    Group {
-                                        Stepper(
-                                            onIncrement: self.incrementWidth,
-                                            onDecrement: self.decrementWidth
-                                        ) {
-                                            Text("width")
-                                                .font(.system(size: 23))
-                                                .fontWeight(.bold)
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                            Text(String(self.imgCtrl.width))
-                                                .font(.system(size: 19))
-                                                .padding(.horizontal, 8)
+                                    Button(action: {
+                                        withAnimation {
+                                            self.customSize.toggle()
                                         }
+                                    }) {
+                                        Text("Use a custom size")
+                                            .font(.custom("Metropolis-medium", size: 15))
+                                            .foregroundColor(primaryColor)
                                     }
+                                    .padding(.top, 10)
                                 }
-                                .padding(.horizontal, 20)
-                                
-                                Button(action: {
-                                    withAnimation {
-                                        self.customSize.toggle()
-                                    }
-                                }) {
-                                    Text("Use a predifined size")
-                                        .foregroundColor(primaryColor)
-                                        .font(.system(size: 15))
-                                }
-                                .padding(.top, 10)
-                            }
-                        } else {
-                            VStack {
-                                HStack {
-                                    ForEach(self.gridImages, id: \.self[1]) { image in
-                                        Button(action: {
-                                            self.setSize(image[0], image[1])
-                                        }) {
-                                            Image(String(image[1]) + (self.colorScheme == .light ? "" : "d"))
-                                                .renderingMode(.original)
-                                                .resizable()
-                                                .aspectRatio(CGSize(width: image[0], height: image[1]), contentMode: .fit)
-                                                .padding(.horizontal, 18)
-                                        }
-                                        .opacity(self.isImageRatio(image[0], image[1]) ? 0.5 : 0.3)
-                                    }
-                                }
-                                
-                                Button(action: {
-                                    withAnimation {
-                                        self.customSize.toggle()
-                                    }
-                                }) {
-                                    Text("Use a custom size")
-                                        .foregroundColor(primaryColor)
-                                        .font(.system(size: 15))
-                                }
-                                .padding(.top, 10)
+                                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 100, alignment: .center)
                             }
                         }
+                        .transition(.opacity)
+                        
+                        Button(action: self.save) {
+                            Text("Save")
+                                .font(.custom("Metropolis-bold", size: 20))
+                                .padding(.horizontal, 52)
+                                .padding(.vertical, 11)
+                                .background(primaryColor)
+                                .foregroundColor(.white)
+                                .cornerRadius(7, antialiased: true)
+                        }
+                        .padding(.top, 45)
+                        .padding(.bottom, 15)
                     }
-                    .transition(.opacity)
-                    
-                    Button(action: self.save) {
-                        Text("Save")
-                            .fontWeight(.bold)
-                            .font(.system(size: 20))
-                            .padding(.horizontal, 52)
-                            .padding(.vertical, 11)
-                            .background(primaryColor)
-                            .foregroundColor(.white)
-                            .cornerRadius(5, antialiased: true)
-                    }
-                    .padding(.top, 45)
-                    .padding(.bottom, 15)
+                    .padding(.top, 20)
                 }
-                .padding(.top, 20)
+            }
+            .sheet(isPresented: self.$showImagePicker) {
+                ImagePicker(onSelect: self.onSelect, onDismiss: self.onDismiss)
+            }
+            
+            VStack {
+                VStack {
+                    if self.showImportScreenContent {
+                        Spacer()
+                        
+                        Group {
+                            if self.saved {
+                                Text("Saved !")
+                                    .font(.custom("Metropolis-medium", size: 38))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color.white)
+                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 100, alignment: .center)
+                            } else {
+                                Text("Gridzly")
+                                    .font(.custom("Metropolis-bold", size: 38))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color.white)
+                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 100, alignment: .center)
+                            }
+                        }
+                        .transition(.slide)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            self.toggleImportScreen()
+                            self.importPicture()
+                        }) {
+                            Text("Import a picture")
+                                .fontWeight(.bold)
+                                .font(.custom("Metropolis-bold", size: 20))
+                                .padding(.horizontal, 52)
+                                .padding(.vertical, 11)
+                                .background(Color.white)
+                                .foregroundColor(primaryColor)
+                                .cornerRadius(7, antialiased: true)
+                        }
+                        .padding(.bottom, 15)
+                        
+                        Button(action: {
+                            self.showPro()
+                        }) {
+                            Text("Become pro")
+                                .font(.custom("Metropolis-medium", size: 18))
+                                .padding(.horizontal, 52)
+                                .padding(.vertical, 11)
+                                .foregroundColor(Color.white)
+                        }
+                        .padding(.bottom, 15)
+                    }
+                }
+                .frame(
+                    minWidth: 0,
+                    maxWidth: self.showImportScreen ? .infinity : 0,
+                    minHeight: 0,
+                    maxHeight: self.showImportScreen ? .infinity : 0,
+                    alignment: .center
+                )
+                .background(primaryColor)
+                .padding(.bottom, self.showImportScreen ? 0 : 35.5)
+                .cornerRadius(15)
+                .animation(.timingCurve(0, 0, 0.1, 1, duration: 0.3))
+            }
+            .frame(
+                minWidth: 0,
+                maxWidth: .infinity,
+                minHeight: 0,
+                maxHeight: .infinity,
+                alignment: .bottom
+            )
+            .padding(.horizontal, 10)
+            .zIndex(9)
+            .onTapGesture {
+                self.importPicture()
             }
         }
-        .sheet(isPresented: self.$showImagePicker) {
-            ImagePicker(onSelect: self.onSelect, onDismiss: self.onDismiss)
-        }
+    }
+    
+    func showPro() {
     }
     
     func isImageRatio(_ width: Int, _ height: Int) -> Bool {
@@ -205,12 +292,20 @@ struct ContentView: View {
         if uiImage != nil {
             self.image = Image(uiImage: uiImage!)
             self.animatePath()
+            self.hideImportScreen()
+            self.rigidGenerator.impactOccurred()
         } else {
+            self.displayImportScreen()
             self.image = nil
         }
     }
     
     func onDismiss() {
+        if self.image == nil {
+            self.displayImportScreen()
+        } else {
+            self.hideImportScreen()
+        }
     }
     
     func pinch(_ value: MagnificationGesture.Value) {
@@ -282,7 +377,39 @@ struct ContentView: View {
     }
     
     func save() {
-        self.imgCtrl.save()
+        // self.imgCtrl.save()
+        self.displayImportScreen(true)
+        self.image = nil
+        self.generator.notificationOccurred(.success)
+    }
+    
+    func toggleImportScreen(_ saved: Bool = false) {
+        if self.showImportScreen {
+            self.hideImportScreen()
+        } else {
+            self.displayImportScreen(saved)
+        }
+    }
+    
+    func hideImportScreen() {
+        self.saved = false
+        self.showImportScreenContent = false
+        self.showImportScreen = false
+    }
+    
+    func displayImportScreen(_ saved: Bool = false) {
+        self.showImportScreen = true
+        self.saved = saved
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.showImportScreenContent = true
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+            withAnimation {
+                self.saved = false
+            }
+        }
     }
     
     func importPicture() {
@@ -303,6 +430,7 @@ struct ContentView: View {
         let changed = self.imgCtrl.setWidthHeight(width, height)
         if changed {
             self.animatePath()
+            self.rigidGenerator.impactOccurred()
         }
     }
     

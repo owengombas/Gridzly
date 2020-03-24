@@ -229,37 +229,38 @@ class ImageController: ObservableObject {
         return changed
     }
     
-    private func setGrid(width: Int, height: Int) {
+    func save() {
         self._images = []
+        
         if image != nil {
-            self._width = width
-            self._height = height
-
-            let imageWidth = Int(self.image!.size.width)
-            let imageHeight = Int(self.image!.size.height)
-
-            let partWidth = imageWidth / self.width
-            let partHeight = imageHeight / self.height
+            let processedImage = UIImage(
+                cgImage: self.image!.cgImage!,
+                scale: CGFloat(self.scale),
+                orientation: self.image!.imageOrientation
+            )
+            let cgImage = processedImage.cgImage!.cropping(to: CGRect(
+                x: CGFloat(self.pos.x),
+                y: CGFloat(self.pos.y),
+                width: CGFloat(self.gridWidth),
+                height:CGFloat( self.gridHeight)
+            ))!
+            let savableImage = UIImage(
+                cgImage: cgImage,
+                scale: 1,
+                orientation: .up
+            )
+            
+            UIImageWriteToSavedPhotosAlbum(savableImage, self, nil, nil)
             
             for x in 0..<width {
                 for y in 0..<height {
-                    let rect = CGRect(
-                        x: x * partWidth,
-                        y: y * partHeight,
-                        width: partWidth,
-                        height: partHeight
-                    )
-                    let croppedImage = self.image!.cgImage?.cropping(to: rect)!
-                    self._images.append(croppedImage!)
                 }
             }
-        }
-    }
-    
-    func save() {
-        for image in self._images {
-            let savableImage = UIImage(cgImage: image, scale: 1, orientation: .up)
-            UIImageWriteToSavedPhotosAlbum(savableImage, self, #selector(saveError), nil)
+            
+//            for image in self._images {
+//                let savableImage = UIImage(cgImage: image, scale: 1, orientation: .up)
+//                UIImageWriteToSavedPhotosAlbum(savableImage, self, #selector(saveError), nil)
+//            }
         }
     }
     
