@@ -3,15 +3,64 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "ImageController.height.setter:ImageController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self._maxHeight">
+            </PersistentString>
+            <PersistentString
+               value = "viewImageWidth">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ContentView.pinchEnded(_:):ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.imgCtrl.scale">
+            </PersistentString>
+            <PersistentString
+               value = "self.imgCtrl.ratio">
+            </PersistentString>
+            <PersistentString
+               value = "self.imgCtrl.scale ">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImagePicker.Coordinator.imagePickerController(_:didFinishPickingMediaWithInfo:):ImagePicker.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageController.viewPartWidth.getter:ImageController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ContentView.setSize(_:_:):ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.imgCtrl">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ContentView.onSelect(uiImage:):ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "uiImage.size.width">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ContentView.updateGeometry(_:):ContentView.swift">
          <PersistentStrings>
             <PersistentString
                value = "geometry.size">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ImageController.viewPartWidth.getter:ImageController.swift">
       </ContextState>
       <ContextState
          contextName = "GridView.path(in:):GridView.swift">
@@ -30,14 +79,6 @@
             </PersistentString>
             <PersistentString
                value = "ImageController.instance.viewPartHeight">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ImageController.height.setter:ImageController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.maxHeight">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

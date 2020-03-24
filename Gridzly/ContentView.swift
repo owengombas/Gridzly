@@ -9,171 +9,318 @@
 import SwiftUI
 
 struct ContentView: View {
+    let maxScale: Float = 3
     @State var lastScale: Float = 1
+    @State var prevValue: DragGesture.Value?
     @State var vPrev: Vector?
     @State var firstValue: DragGesture.Value?
     @State var pathTrim: CGFloat = 1
+    @State var customSize = false
+    @State var showImagePicker = true
+    @State var image: Image?
     @ObservedObject var imgCtrl: ImageController = ImageController()
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    @State var scaleAnimation: Animation? = nil
+    let primaryColor = Color(red: 0.21, green: 0.59, blue: 0.94)
+    let gridImages: [[Int]] = [
+        [3, 1],
+        [3, 2],
+        [3, 3],
+        [3, 4]
+    ]
     
     var scaleMovingFactor: Float {
-        return 1 - self.imgCtrl.scale
+        return 1 / self.imgCtrl.scale
+    }
+    
+    init() {
+        self.setSize(3, 3)
     }
 
     var body: some View {
         VStack {
-            VStack(spacing: 0) {
-                ZStack {
-                    self.viewImage()
-                        .antialiased(true)
-                        .position(self.imgCtrl.maskPos.toPoint())
-                        .scaleEffect(CGFloat(self.imgCtrl.scale))
-                        .frame(
-                            width: CGFloat(self.imgCtrl.gridWidth),
-                            height: CGFloat(self.imgCtrl.gridHeight),
-                            alignment: .center
-                        )
-                        // .animation(.spring()) TODO MANUAL
-                        .mask(
-                            Rectangle()
+            if self.image != nil {
+                Button(action: self.importPicture) {
+                    Text("Change the picture")
+                        .fontWeight(.medium)
+                        .foregroundColor(primaryColor)
+                        .padding(.horizontal, 30)
+                        .padding(.vertical, 12)
+                        .font(.system(size: 17))
+                        .foregroundColor(.white)
+                        .cornerRadius(5, antialiased: true)
+                }
+                
+                VStack(spacing: 0) {
+                    ZStack {
+                        self.image!
+                            .offset(x: CGFloat(self.imgCtrl.pos.x), y: CGFloat(self.imgCtrl.pos.y))
+                            .animation(.timingCurve(0, 0, 0.3, 1, duration: 1))
+                            .scaleEffect(CGFloat(self.imgCtrl.scale))
+                            .animation(self.scaleAnimation)
+                            .animation(.default)
+                            .frame(
+                                width: CGFloat(self.imgCtrl.gridWidth),
+                                height: CGFloat(self.imgCtrl.gridHeight),
+                                alignment: .center
+                            )
+
+                            getPath()
+                                .trim(from: self.pathTrim, to: 1)
+                                .stroke(Color.white, lineWidth: 2)
+                                .opacity(0.3)
                                 .frame(
                                     width: CGFloat(self.imgCtrl.gridWidth),
                                     height: CGFloat(self.imgCtrl.gridHeight),
                                     alignment: .center
                                 )
-                                .animation(.spring())
-                        )
-
-                    getPath()
-                        .trim(from: self.pathTrim, to: 1)
-                        .stroke(Color.white, lineWidth: 2)
-                        .opacity(0.3)
-                        .frame(
-                            width: CGFloat(self.imgCtrl.viewImageWidth),
-                            height: CGFloat(self.imgCtrl.gridHeight)
-                        )
-                        .onAppear(perform: self.animatePath)
+                                .onAppear(perform: self.animatePath)
+                                .shadow(color: Color(.sRGB, white: 0, opacity: 0.9), radius: 5, x: 0, y: 5)
+                    }
+                    .cornerRadius(5)
+                    .shadow(color: Color(.sRGB, white: 0, opacity: 0.5), radius: 10, x: 0, y: 5)
+                    .gesture(DragGesture().onChanged(self.drag).onEnded(self.dragEnded))
+                    .gesture(MagnificationGesture().onChanged(self.pinch).onEnded(self.pinchEnded))
                 }
-                .shadow(color: Color(.sRGB, white: 0, opacity: 0.5), radius: 10, x: 0, y: 5)
-                .gesture(DragGesture().onChanged(self.drag).onEnded(self.dragEnded))
-                .gesture(MagnificationGesture().onChanged(self.pinch).onEnded(self.pinchEnded))
+                .frame(
+                    width: CGFloat(self.imgCtrl.maxWidth),
+                    height: CGFloat(self.imgCtrl.maxHeight),
+                    alignment: .center
+                )
+                .animation(.spring())
+                .zIndex(-999999)
+                
+                Spacer()
 
-                VStack(spacing: 0) {
-                    Text("height")
-                    .font(.custom("Metropolis-bold", size: 23))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    Stepper(
-                        onIncrement: self.incrementHeight,
-                        onDecrement: self.decrementHeight
-                    ) {
-                        Text(String(self.imgCtrl.height))
-                        .font(.custom("Metropolis-medium", size: 20))
-                    }.padding(.top, 3)
-                }.padding(.horizontal, 10).padding(.top, 15).animation(.spring())
-            }
-            
-            Spacer()
-            
-            Button(action: self.save) {
-                Text("save")
-                    .padding(.horizontal, 17)
-                    .padding(.vertical, 8)
-                    .background(Color(red: 0.1, green: 0, blue: 1))
-                    .font(.custom("Metropolis-bold", size: 23))
-                    .foregroundColor(.white)
-                    .cornerRadius(10, antialiased: true)
-                    .shadow(color: Color(red: 0.1, green: 0, blue: 1, opacity: 0.25), radius: 10, x: 0, y: 5)
+                VStack {
+                    ZStack {
+                        if self.customSize {
+                            VStack {
+                                Group {
+                                    Group {
+                                        Stepper(
+                                            onIncrement: self.incrementHeight,
+                                            onDecrement: self.decrementHeight
+                                        ) {
+                                            Text("height")
+                                                .font(.system(size: 23))
+                                                .fontWeight(.bold)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                            Text(String(self.imgCtrl.height))
+                                                .font(.system(size: 19))
+                                                .padding(.horizontal, 8)
+                                        }
+                                    }
+                                    
+                                    Group {
+                                        Stepper(
+                                            onIncrement: self.incrementWidth,
+                                            onDecrement: self.decrementWidth
+                                        ) {
+                                            Text("width")
+                                                .font(.system(size: 23))
+                                                .fontWeight(.bold)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                            Text(String(self.imgCtrl.width))
+                                                .font(.system(size: 19))
+                                                .padding(.horizontal, 8)
+                                        }
+                                    }
+                                }
+                                .padding(.horizontal, 20)
+                                
+                                Button(action: {
+                                    withAnimation {
+                                        self.customSize.toggle()
+                                    }
+                                }) {
+                                    Text("Use a predifined size")
+                                        .foregroundColor(primaryColor)
+                                        .font(.system(size: 15))
+                                }
+                                .padding(.top, 10)
+                            }
+                        } else {
+                            VStack {
+                                HStack {
+                                    ForEach(self.gridImages, id: \.self[1]) { image in
+                                        Button(action: {
+                                            self.setSize(image[0], image[1])
+                                        }) {
+                                            Image(String(image[1]) + (self.colorScheme == .light ? "" : "d"))
+                                                .renderingMode(.original)
+                                                .resizable()
+                                                .aspectRatio(CGSize(width: image[0], height: image[1]), contentMode: .fit)
+                                                .padding(.horizontal, 18)
+                                        }
+                                        .opacity(self.isImageRatio(image[0], image[1]) ? 0.5 : 0.3)
+                                    }
+                                }
+                                
+                                Button(action: {
+                                    withAnimation {
+                                        self.customSize.toggle()
+                                    }
+                                }) {
+                                    Text("Use a custom size")
+                                        .foregroundColor(primaryColor)
+                                        .font(.system(size: 15))
+                                }
+                                .padding(.top, 10)
+                            }
+                        }
+                    }
+                    .transition(.opacity)
+                    
+                    Button(action: self.save) {
+                        Text("Save")
+                            .fontWeight(.bold)
+                            .font(.system(size: 20))
+                            .padding(.horizontal, 52)
+                            .padding(.vertical, 11)
+                            .background(primaryColor)
+                            .foregroundColor(.white)
+                            .cornerRadius(5, antialiased: true)
+                    }
+                    .padding(.top, 45)
+                    .padding(.bottom, 15)
+                }
+                .padding(.top, 20)
             }
         }
-        .padding(20)
+        .sheet(isPresented: self.$showImagePicker) {
+            ImagePicker(onSelect: self.onSelect, onDismiss: self.onDismiss)
+        }
     }
     
-    init() {
-        self.imgCtrl.image = UIImage(named: "limage")
-        self.imgCtrl.height = 3
+    func isImageRatio(_ width: Int, _ height: Int) -> Bool {
+        return (
+            self.imgCtrl.height == height &&
+            self.imgCtrl.width == width
+        )
     }
     
-    func viewImage() -> Image {
-        return Image("limage")
+    func onSelect(uiImage: UIImage?) {
+        self.imgCtrl.image = uiImage
+        if uiImage != nil {
+            self.image = Image(uiImage: uiImage!)
+            self.animatePath()
+        } else {
+            self.image = nil
+        }
+    }
+    
+    func onDismiss() {
     }
     
     func pinch(_ value: MagnificationGesture.Value) {
+        self.scaleAnimation = nil
+        
         let delta = Float(value) / self.lastScale
         self.lastScale = Float(value)
         let newValue = self.imgCtrl.scale * delta
-        if newValue <= 1 && newValue >= self.imgCtrl.ratio {
-            self.imgCtrl.scale = newValue
+        
+        if newValue > self.maxScale {
+            self.imgCtrl.updateScale(newValue, false)
+        } else if newValue < self.imgCtrl.ratio {
+            self.imgCtrl.updateScale(newValue, false)
+        } else {
+            self.imgCtrl.updateScale(newValue)
         }
     }
     
     func pinchEnded(_ value: MagnificationGesture.Value) {
+        self.scaleAnimation = .spring()
+        
+        if self.imgCtrl.scale > self.maxScale {
+            self.imgCtrl.updateScale(self.maxScale)
+        }
+        
+        if self.imgCtrl.scale < self.imgCtrl.ratio {
+            self.imgCtrl.updateScale(self.imgCtrl.ratio)
+        }
+        
         self.lastScale = 1
     }
     
     func drag(_ value: DragGesture.Value) -> Void {
         let vCurr = Vector(value.location)
         
-        if vPrev != nil {
-            let vPrevCurr = vCurr.substract(vPrev!)
-            let vFinal = (
-                vPrevCurr.scale(self.scaleMovingFactor * 5 + 1)
-            )
-
-            let newPos = self.imgCtrl.maskPos.add(vFinal)
-            self.imgCtrl.maskPos = newPos
-        } else {
-            self.firstValue = value
+        if vPrev == nil {
+            vPrev = vCurr
         }
         
-        vPrev = vCurr
+        let vFinal = vCurr.substract(vPrev!).scale(self.scaleMovingFactor)
+        let newPos = self.imgCtrl.pos.add(vFinal)
+        
+        self.imgCtrl.pos = newPos
+        self.prevValue = value
+        self.vPrev = vCurr
     }
     
     func dragEnded(_ value: DragGesture.Value) -> Void {
-        let vTranslation = Vector(
-            Float(value.predictedEndTranslation.width),
-            Float(value.predictedEndTranslation.height)
-        )
-        
-        withAnimation(.easeOut(duration: 0.5)) {
-            if vTranslation.norm > 250 {
-                self.imgCtrl.maskPos = self.imgCtrl.maskPos.add(
-                    vTranslation.scale(self.scaleMovingFactor * 3 + 1)
+        if self.prevValue != nil {
+            let vTranslation = Vector(
+                Float(value.predictedEndTranslation.width),
+                Float(value.predictedEndTranslation.height)
+            )
+
+            let time = value.time.timeIntervalSince(self.prevValue!.time)
+            let speed = abs(CGFloat(value.translation.height - self.prevValue!.translation.height) / CGFloat(time))
+
+            if speed > 235 {
+                let newPos = self.imgCtrl.pos.add(
+                    vTranslation.scale(self.scaleMovingFactor)
                 )
+                
+                self.imgCtrl.pos = newPos
             }
         }
         
+        self.prevValue = nil
         self.vPrev = nil
-    }
-    
-    func getPosValue(_ delta: CGFloat) -> CGFloat {
-        let increment = delta == 0 ? 0 : delta > 0 ? 1 : -1
-        let velocity = delta == 0 ? 0 : (abs(1 - abs((1 / delta))) * 7 + 1)
-        return (CGFloat(increment) * CGFloat(velocity)).rounded(.up)
     }
     
     func save() {
         self.imgCtrl.save()
     }
     
-    func setSize(value: inout Int, increment: Int) {
-        value = value + increment
-        animatePath()
+    func importPicture() {
+        self.showImagePicker.toggle()
     }
     
     func animatePath() {
         self.pathTrim = 1
-        withAnimation(.easeOut(duration: 0.5)) {
-            self.pathTrim = 0
+        // Path out of border
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            withAnimation(.easeOut(duration: 0.8)) {
+                self.pathTrim = 0
+            }
         }
-        
+    }
+    
+    func setSize(_ width: Int, _ height: Int) {
+        let changed = self.imgCtrl.setWidthHeight(width, height)
+        if changed {
+            self.animatePath()
+        }
     }
     
     func incrementHeight() {
-        setSize(value: &self.imgCtrl.height, increment: 1)
+        self.setSize(self.imgCtrl.width, self.imgCtrl.height + 1)
     }
     
     func decrementHeight() {
-        setSize(value: &self.imgCtrl.height, increment: -1)
+        self.setSize(self.imgCtrl.width, self.imgCtrl.height - 1)
     }
+    
+    func incrementWidth() {
+        self.setSize(self.imgCtrl.width + 1, self.imgCtrl.height)
+    }
+     
+     func decrementWidth() {
+        self.setSize(self.imgCtrl.width - 1, self.imgCtrl.height)
+     }
     
     func getPath() -> Path {
         var path = Path()

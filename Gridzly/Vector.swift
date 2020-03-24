@@ -67,17 +67,17 @@ class Vector {
         return out
     }
     
-    func substract(_ vector: Vector) -> Vector {
-        let out = Vector(x, y)
-        out.x -= vector.x
-        out.y -= vector.y
-        return out
-    }
-    
     func add(_ number: Float) -> Vector {
         let out = Vector(x, y)
         out.x += number
         out.y += number
+        return out
+    }
+    
+    func substract(_ vector: Vector) -> Vector {
+        let out = Vector(x, y)
+        out.x -= vector.x
+        out.y -= vector.y
         return out
     }
     
