@@ -12,6 +12,19 @@ struct ContentView: View {
     let maxScale: Float = 3
     let generator = UINotificationFeedbackGenerator()
     let rigidGenerator = UIImpactFeedbackGenerator(style: .rigid)
+    let primaryColor = Color(red: 0.305, green: 0.35, blue: 1)
+    let primaryColor2 = Color(red: 0.305, green: 0.501, blue: 1)
+    let gridImages: [[Int]] = [
+        [3, 1],
+        [3, 2],
+        [3, 3],
+        [3, 4]
+    ]
+    var scaleMovingFactor: Float {
+        return 1 / self.imgCtrl.scale
+    }
+    
+    
     @State var lastScale: Float = 1
     @State var prevValue: DragGesture.Value?
     @State var vPrev: Vector?
@@ -27,20 +40,11 @@ struct ContentView: View {
     @State var isPro = false
     @ObservedObject var imgCtrl: ImageController = ImageController()
     @Environment(\.colorScheme) var colorScheme: ColorScheme
-    let primaryColor = Color(red: 0.21, green: 0.59, blue: 0.94)
-    let gridImages: [[Int]] = [
-        [3, 1],
-        [3, 2],
-        [3, 3],
-        [3, 4]
-    ]
-    
-    var scaleMovingFactor: Float {
-        return 1 / self.imgCtrl.scale
-    }
+    @Environment(\.localStatusBarStyle) var statusBarStyle
     
     init() {
         self.setSize(3, 3)
+        self.statusBarStyle.currentStyle = .lightContent
     }
 
     var body: some View {
@@ -50,7 +54,7 @@ struct ContentView: View {
                     Button(action: self.importPicture) {
                         Text("Change the picture")
                             .font(.custom("Metropolis-medium", size: 18))
-                            .foregroundColor(primaryColor)
+                            .foregroundColor(primaryColor2)
                             .padding(.horizontal, 30)
                             .padding(.vertical, 12)
                     }
@@ -83,7 +87,7 @@ struct ContentView: View {
                                     .shadow(color: Color(.sRGB, white: 0, opacity: 0.9), radius: 5, x: 0, y: 5)
                         }
                         .cornerRadius(5, antialiased: true)
-                        .shadow(color: Color(.sRGB, white: 0, opacity: 0.5), radius: 10, x: 0, y: 5)
+                        .shadow(color: Color(.sRGB, white: 0, opacity: 0.2), radius: 10, x: 0, y: 5)
                         .gesture(DragGesture().onChanged(self.drag).onEnded(self.dragEnded))
                         .gesture(MagnificationGesture().onChanged(self.pinch).onEnded(self.pinchEnded))
                     }
@@ -140,7 +144,7 @@ struct ContentView: View {
                                         }
                                     }) {
                                         Text("Use a predifined size")
-                                            .foregroundColor(primaryColor)
+                                            .foregroundColor(primaryColor2)
                                             .font(.custom("Metropolis-medium", size: 15))
                                     }
                                     .padding(.top, 10)
@@ -171,7 +175,7 @@ struct ContentView: View {
                                     }) {
                                         Text("Use a custom size")
                                             .font(.custom("Metropolis-medium", size: 15))
-                                            .foregroundColor(primaryColor)
+                                            .foregroundColor(primaryColor2)
                                     }
                                     .padding(.top, 10)
                                 }
@@ -247,7 +251,7 @@ struct ContentView: View {
                                 .padding(.vertical, 11)
                                 .foregroundColor(Color.white)
                         }
-                        .padding(.bottom, 15)
+                        .padding(.bottom, 35)
                     }
                 }
                 .frame(
@@ -259,8 +263,7 @@ struct ContentView: View {
                 )
                 .background(primaryColor)
                 .padding(.bottom, self.showImportScreen ? 0 : 35.5)
-                .cornerRadius(15)
-                .animation(.timingCurve(0, 0, 0.1, 1, duration: 0.3))
+                .animation(.timingCurve(0, 0, 0.1, 1, duration: 0.2))
             }
             .frame(
                 minWidth: 0,
@@ -269,12 +272,12 @@ struct ContentView: View {
                 maxHeight: .infinity,
                 alignment: .bottom
             )
-            .padding(.horizontal, 10)
             .zIndex(9)
             .onTapGesture {
                 self.importPicture()
             }
         }
+        .edgesIgnoringSafeArea(self.showImportScreen ? .all : .horizontal)
     }
     
     func showPro() {
@@ -392,12 +395,15 @@ struct ContentView: View {
     }
     
     func hideImportScreen() {
+        self.statusBarStyle.currentStyle = .default
         self.saved = false
         self.showImportScreenContent = false
         self.showImportScreen = false
     }
     
     func displayImportScreen(_ saved: Bool = false) {
+        self.statusBarStyle.currentStyle = .lightContent
+        
         self.showImportScreen = true
         self.saved = saved
         
@@ -462,7 +468,7 @@ struct ContentView: View {
             )
             path.addLine(
                 to: CGPoint(
-                    x: Int(self.imgCtrl.viewImageWidth),
+                    x: Int(self.imgCtrl.gridWidth),
                     y: y * Int(self.imgCtrl.viewPartHeight)
                 )
             )

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A4ACFFB242B36F6008DEB17 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4ACFFA242B36F6008DEB17 /* HostingController.swift */; };
 		5A762A982421532900023407 /* Metropolis-SemiBold.woff in Resources */ = {isa = PBXBuildFile; fileRef = 5A762A822421532700023407 /* Metropolis-SemiBold.woff */; };
 		5A762A992421532900023407 /* Metropolis-Bold.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 5A762A832421532700023407 /* Metropolis-Bold.woff2 */; };
 		5A762A9A2421532900023407 /* Metropolis-ExtraLight.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 5A762A842421532700023407 /* Metropolis-ExtraLight.woff2 */; };
@@ -62,6 +63,7 @@
 
 /* Begin PBXFileReference section */
 		5A389F5E2422179500B4E398 /* Gridzly.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Gridzly.entitlements; sourceTree = "<group>"; };
+		5A4ACFFA242B36F6008DEB17 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		5A762A822421532700023407 /* Metropolis-SemiBold.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Metropolis-SemiBold.woff"; sourceTree = "<group>"; };
 		5A762A832421532700023407 /* Metropolis-Bold.woff2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Metropolis-Bold.woff2"; sourceTree = "<group>"; };
 		5A762A842421532700023407 /* Metropolis-ExtraLight.woff2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Metropolis-ExtraLight.woff2"; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				5A7AE02A2420D2A100E5EDA6 /* ImageController.swift */,
 				5AE4AA96242530FA0093B883 /* Vector.swift */,
 				5A9A193C24294CE00086B0D2 /* ImagePicker.swift */,
+				5A4ACFFA242B36F6008DEB17 /* HostingController.swift */,
 			);
 			path = Gridzly;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 			files = (
 				5A7AE02B2420D2A100E5EDA6 /* ImageController.swift in Sources */,
 				5AF6E2A123EF438F008EDCE1 /* AppDelegate.swift in Sources */,
+				5A4ACFFB242B36F6008DEB17 /* HostingController.swift in Sources */,
 				5AF6E2A323EF438F008EDCE1 /* SceneDelegate.swift in Sources */,
 				5A9A193D24294CE00086B0D2 /* ImagePicker.swift in Sources */,
 				5AF6E2A823EF438F008EDCE1 /* ContentView.swift in Sources */,
