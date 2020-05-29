@@ -240,18 +240,7 @@ struct ContentView: View {
                                 .foregroundColor(primaryColor)
                                 .cornerRadius(7, antialiased: true)
                         }
-                        .padding(.bottom, 15)
-                        
-                        Button(action: {
-                            self.showPro()
-                        }) {
-                            Text("Become pro")
-                                .font(.custom("Metropolis-medium", size: 18))
-                                .padding(.horizontal, 52)
-                                .padding(.vertical, 11)
-                                .foregroundColor(Color.white)
-                        }
-                        .padding(.bottom, 35)
+                        .padding(.bottom, 45)
                     }
                 }
                 .frame(
@@ -380,7 +369,7 @@ struct ContentView: View {
     }
     
     func save() {
-        // self.imgCtrl.save()
+        self.imgCtrl.save()
         self.displayImportScreen(true)
         self.image = nil
         self.generator.notificationOccurred(.success)
@@ -489,7 +478,7 @@ struct ContentView: View {
             )
         }
         
-        path = path.scale(-1).path(in: path.boundingRect)
+        //  wpath = path.scale(-1).path(in: path.boundingRect)
         
         return path
     }

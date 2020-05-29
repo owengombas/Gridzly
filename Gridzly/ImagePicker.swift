@@ -26,7 +26,7 @@ struct ImagePicker: UIViewControllerRepresentable {
             _ picker: UIImagePickerController,
             didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
         ) {
-            let uiImage = self.resizeImage(info[UIImagePickerController.InfoKey.originalImage] as! UIImage)
+            let uiImage = ImageController.resizeImage(info[UIImagePickerController.InfoKey.originalImage] as! UIImage)
             self.onSelect(uiImage)
             self.presentationMode.dismiss()
         }
@@ -34,18 +34,6 @@ struct ImagePicker: UIViewControllerRepresentable {
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             self.onDismiss()
             self.presentationMode.dismiss()
-        }
-        
-        func resizeImage(_ image: UIImage) -> UIImage {
-            let width = image.size.width
-            let height = image.size.height
-            
-            UIGraphicsBeginImageContext(CGSize(width: width, height: height))
-            image.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
-            let newImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
-            return newImage!
         }
     }
 

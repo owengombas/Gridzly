@@ -3,13 +3,45 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "ImageController.height.setter:ImageController.swift">
+         contextName = "GridView.path(in:):GridView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self._maxHeight">
+               value = "ImageController.instance.imageWidth">
             </PersistentString>
             <PersistentString
-               value = "viewImageWidth">
+               value = "ImageController.instance.viewGeometry!.size.width">
+            </PersistentString>
+            <PersistentString
+               value = "ImageController.instance">
+            </PersistentString>
+            <PersistentString
+               value = "ImageController.instance.viewGeometry!.size.height">
+            </PersistentString>
+            <PersistentString
+               value = "ImageController.instance.viewPartHeight">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageController.save():ImageController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.viewPartWidth / self.scale">
+            </PersistentString>
+            <PersistentString
+               value = "self.gridWidth / self.scale">
+            </PersistentString>
+            <PersistentString
+               value = "self.viewPartWidth">
+            </PersistentString>
+            <PersistentString
+               value = "self.scale">
+            </PersistentString>
+            <PersistentString
+               value = "cgImage.size.width">
+            </PersistentString>
+            <PersistentString
+               value = "self.width">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -63,22 +95,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "GridView.path(in:):GridView.swift">
+         contextName = "ImageController.height.setter:ImageController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "ImageController.instance.imageWidth">
+               value = "self._maxHeight">
             </PersistentString>
             <PersistentString
-               value = "ImageController.instance.viewGeometry!.size.width">
-            </PersistentString>
-            <PersistentString
-               value = "ImageController.instance">
-            </PersistentString>
-            <PersistentString
-               value = "ImageController.instance.viewGeometry!.size.height">
-            </PersistentString>
-            <PersistentString
-               value = "ImageController.instance.viewPartHeight">
+               value = "viewImageWidth">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

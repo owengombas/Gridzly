@@ -233,42 +233,70 @@ class ImageController: ObservableObject {
         self._images = []
         
         if image != nil {
-            let processedImage = UIImage(
-                cgImage: self.image!.cgImage!,
-                scale: CGFloat(self.scale),
-                orientation: self.image!.imageOrientation
+            let positionInImage = (
+                pos
+                .scale(-1)
+                .add(
+                    Vector(
+                        self.imageWidth,
+                        self.imageHeight
+                    )
+                    .divide(2)
+                )
+                .substract(
+                    Vector(
+                        self.gridWidth,
+                        self.gridHeight
+                    )
+                    .divide(2)
+                    .divide(self.scale)
+                )
             )
-            let cgImage = processedImage.cgImage!.cropping(to: CGRect(
-                x: CGFloat(self.pos.x),
-                y: CGFloat(self.pos.y),
-                width: CGFloat(self.gridWidth),
-                height:CGFloat( self.gridHeight)
+
+            let cgImage = self.image!.cgImage!.cropping(to: CGRect(
+                x: CGFloat(positionInImage.x),
+                y: CGFloat(positionInImage.y),
+                width: CGFloat(self.gridWidth / self.scale),
+                height: CGFloat(self.gridHeight / self.scale)
             ))!
-            let savableImage = UIImage(
-                cgImage: cgImage,
-                scale: 1,
-                orientation: .up
-            )
             
-            UIImageWriteToSavedPhotosAlbum(savableImage, self, nil, nil)
-            
-            for x in 0..<width {
-                for y in 0..<height {
+            for y in 0..<height {
+                for x in 0..<width {
+                    self._images.append(cgImage.cropping(to: CGRect(
+                        x: CGFloat(Float(x) * self.viewPartWidth / self.scale),
+                        y: CGFloat(Float(y) * self.viewPartHeight / self.scale),
+                        width: CGFloat(self.viewPartWidth / self.scale),
+                        height: CGFloat(self.viewPartHeight / self.scale)
+                    ))!)
                 }
             }
             
-//            for image in self._images {
-//                let savableImage = UIImage(cgImage: image, scale: 1, orientation: .up)
-//                UIImageWriteToSavedPhotosAlbum(savableImage, self, #selector(saveError), nil)
-//            }
+            saveImage(0)
         }
     }
     
-    @objc func saveError(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
-        // save complete
+    private func saveImage(_ index: Int) {
+        if index < self._images.count {
+            let savableImage = UIImage(cgImage: self._images[index], scale: 1, orientation: .up)
+            CustomPhotoAlbum.instance.save(savableImage) {
+                self.saveImage(index + 1)
+            }
+        }
     }
 
     private func getDocumentsDirectory() -> URL {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    }
+    
+    static func resizeImage(_ image: UIImage, _ width: Float? = nil, _ height: Float? = nil) -> UIImage {
+        let width = width != nil ? CGFloat(width!) : image.size.width
+        let height = height != nil ? CGFloat(height!) : image.size.height
+        
+        UIGraphicsBeginImageContext(CGSize(width: width, height: height))
+        image.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
     }
 }
